@@ -12,9 +12,9 @@ Create a workflow .yml file in your .github/workflows directory. An example work
 
 `repository`: Github repository. Add the Github context value: `github.repository`. (**required**)
 
-`milestone`: Milesone id, not title please. (**required**)
+`milestone`: Milestone id, not title please. (**required**)
 
-`custom-row`: Custom row format. You're able to use the [Github issue object](https://docs.github.com/en/free-pro-team@latest/rest/reference/issues#get-an-issue) values ​​to build your row.
+`custom-row`: Custom row format. You're able to use the [Github issue object](https://docs.github.com/en/free-pro-team@latest/rest/reference/issues#get-an-issue) values ​​to build your row.\
 Example: `"(#${issue.number}) - ${issue.title}: ${issue.body}"`
 
 `custom-group-by-label`: You're able to create groups by combining issue labels. You must add a collection of groups and each group has`title` and `labels`.
