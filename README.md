@@ -53,20 +53,20 @@ jobs:
           milestone: ${{ github.event.inputs.milestone }}
 
           # optional
-          custom-row: "(#${issue.number}) - ${issue.title}: ${issue.body}"
+          custom-row: "${issue.number} <--> ${issue.title}"
           custom-group-by-label: |
             [
               {
-                title: '### Feature 🎉\n\n',
-                labels: ['feature'],
+                "title": "### Feature 🎉",
+                "labels": ["feature"]
               },
               {
-                title: '\n### Bug Fixes 🐛\n\n',
-                labels: ['bug'],
+                "title": "### Bug Fixes 🐛",
+                "labels": ["bug"]
               },
               {
-                title: '\n### Refactor & Improvements ✨\n\n',
-                labels: ['enhancement', 'refactor', 'chore'],
+                "title": "### Refactor & Improvements ✨",
+                "labels": ["enhancement", "refactor", "chore"]
               }
             ]
 
