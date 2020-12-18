@@ -88,7 +88,7 @@ async function run() {
     // removing groups that have no change log
     .map(({ title, changeLog }) => {
       return (changeLog.trim() !== '')
-        ? `${title}${changeLog}`
+        ? `${template(title)()}${changeLog}`
         : '';
     })
     // concatenating change log groups
