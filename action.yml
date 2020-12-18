@@ -15,7 +15,7 @@ inputs:
   custom-group-by-label:
     description: "Custom groups by label"
 outputs:
-  releaseNotes:
+  release-notes:
     description: "Formatted release notes"
 runs:
   using: "node12"
