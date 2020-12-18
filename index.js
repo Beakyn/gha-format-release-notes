@@ -22,8 +22,7 @@ function getInputs() {
   const requiredOptions = { required: true };
   // Required
   const tokenGithub = core.getInput('github-token', requiredOptions);
-  const owner = core.getInput('owner', requiredOptions);
-  const repo = core.getInput('repo', requiredOptions);
+  const repository = core.getInput('repository', requiredOptions);
   const milestone = core.getInput('milestone', requiredOptions);
   // Optional
   const customRow = core.getInput('custom-row');
@@ -31,8 +30,7 @@ function getInputs() {
 
   return {
     tokenGithub,
-    owner,
-    repo,
+    repository,
     milestone,
     row: customRow || defaultRow,
     groupByLabel: groupByLabel === '' ? defaultGroupByLabel : JSON.parse(groupByLabel)
@@ -48,8 +46,7 @@ async function run() {
   try {
     const {
       tokenGithub,
-      owner,
-      repo,
+      repository,
       milestone,
       row,
       groupByLabel,
@@ -57,9 +54,7 @@ async function run() {
 
     const octokit = github.getOctokit(tokenGithub);
   
-    const { data: issues } = await octokit.request('GET /repos/{owner}/{repo}/issues', {
-      owner,
-      repo,
+    const { data: issues } = await octokit.request(`GET /repos/${repository}/issues`, {  
       milestone,
       state: 'closed',
       sort: 'created',

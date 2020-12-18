@@ -10,9 +10,7 @@ Create a workflow .yml file in your .github/workflows directory. An example work
 
 `github-token`: Github token. (**required**)
 
-`owner`: Repository owner. (**required**)
-
-`repo`: Repository name. (**required**)
+`repository`: Repository owner/repository name. (**required**)
 
 `milestone`: Milesone id, not title please. (**required**)
 
@@ -47,8 +45,7 @@ jobs:
         with:
           github-token: ${{ github.token }}
 
-          owner: "repository_owner"
-          repo: "repository_name"
+          repository: ${{ github.repository }}
           milestone: ${{ github.event.inputs.milestone }}
 
           # optional
@@ -82,7 +79,7 @@ jobs:
           prerelease: false
 
       - name: Close Milestone
-        uses: WyriHaximus/github-action-close-milestone
+        uses: WyriHaximus/github-action-close-milestone@master
         with:
           number: ${{ github.event.inputs.milestone }}
 ```
