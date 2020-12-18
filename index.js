@@ -5,15 +5,15 @@ const template = require('lodash.template');
 const defaultRow = '- ${issue.title} #${issue.number}';
 const defaultGroupByLabel = [
   {
-    title: '### Feature 🎉\n\n',
+    title: '### Feature 🎉',
     labels: ['feature'],
   },
   {
-    title: '\n### Bug Fixes 🐛\n\n',
+    title: '### Bug Fixes 🐛',
     labels: ['bug'],
   },
   {
-    title: '\n### Refactor & Improvements ✨\n\n',
+    title: '### Refactor & Improvements ✨',
     labels: ['enhancement', 'refactor', 'chore'],
   }
 ];
