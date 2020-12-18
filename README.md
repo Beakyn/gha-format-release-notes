@@ -8,7 +8,7 @@ Create a workflow .yml file in your .github/workflows directory. An example work
 
 ## Inputs
 
-`github-token`: Github token. (**required**)
+`github-token`: Github token. Add the Github context value: `github.token`. (**required**)
 
 `repository`: Github repository. Add the Github context value: `github.repository`. (**required**)
 
