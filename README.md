@@ -26,7 +26,7 @@ Example: `"(#${issue.number}) - ${issue.title}: ${issue.body}"`
 ## Example
 
 ```yaml
-name: Production Deploy
+name: Generete release from milestone
 
 on:
   workflow_dispatch:
@@ -40,7 +40,7 @@ on:
 
 jobs:
   production:
-    name: Deploy Production
+    name: Generete release from milestone
     runs-on: ubuntu-latest
     steps:
       - name: Relese notes format
