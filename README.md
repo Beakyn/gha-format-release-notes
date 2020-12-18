@@ -39,7 +39,7 @@ on:
         required: true
 
 jobs:
-  production:
+  generate-release:
     name: Generete release from milestone
     runs-on: ubuntu-latest
     steps:
