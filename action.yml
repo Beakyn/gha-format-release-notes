@@ -1,0 +1,25 @@
+name: "Release Notes Format"
+description: "Action to format the text of the release to the milestone"
+inputs:
+  github-token:
+    description: "Github token"
+    required: true
+  owner:
+    description: "Repository owner"
+    required: true
+  repo:
+    description: "Repository name"
+    required: true
+  milestone:
+    description: "Milesone id, not title"
+    required: true
+  custom-row:
+    description: "Custom format to row"
+  custom-group-by-label:
+    description: "Custom groups by label"
+outputs:
+  releaseNotes:
+    description: "Formatted release notes"
+runs:
+  using: "node12"
+  main: "index.js"
