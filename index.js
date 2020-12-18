@@ -21,7 +21,7 @@ const defaultGroupByLabel = [
 function getInputs() {
   const requiredOptions = { required: true };
   // Required
-  const tokenGithub = core.getInput('github-token', requiredOptions);
+  const tokenGithub = process.env.GITHUB_TOKEN;
   const repository = core.getInput('repository', requiredOptions);
   const milestone = core.getInput('milestone', requiredOptions);
   // Optional
