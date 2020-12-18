@@ -21,7 +21,7 @@ Example: `"(#${issue.number}) - ${issue.title}: ${issue.body}"`
 
 ## Outputs
 
-`releaseNotes`: Formatted release notes.
+`release-notes`: Formatted release notes.
 
 ## Example
 
@@ -75,7 +75,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: ${{steps.format.releaseNotes}}
+          body: ${{steps.format.outputs.release-notes}}
           draft: false
           prerelease: false
 
