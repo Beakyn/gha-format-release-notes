@@ -2,7 +2,7 @@ const github = require("@actions/github");
 const core = require("@actions/core");
 const template = require('lodash.template');
 
-const defaultRow = '- ${issue.title} #${issue.number}\n';
+const defaultRow = '- ${issue.title} #${issue.number}';
 const defaultGroupByLabel = [
   {
     title: '### Feature 🎉\n\n',
@@ -28,6 +28,7 @@ function getInputs() {
   const customRow = core.getInput('custom-row');
   const groupByLabel = core.getInput('custom-group-by-label');
 
+  console.log('groupByLabel => ', groupByLabel);
   return {
     tokenGithub,
     repository,
@@ -75,7 +76,7 @@ async function run() {
         return exists;
       })
       // creating each issue text
-      .map(issue => template(row)({ issue }))
+      .map(issue => `${template(row)({ issue })}\n`)
       // concatenating the title of the issues
       .reduce(concatText, '');
 
