@@ -94,7 +94,7 @@ async function run() {
     .reduce(concatText, '');
     // success
     console.log(releaseNotes);
-    core.setOutput('releaseNotes', releaseNotes);
+    core.setOutput('release-notes', releaseNotes);
   } catch(error) {
     console.log('error => ', error);
     core.setFailed(error.message);
