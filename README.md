@@ -80,7 +80,7 @@ jobs:
           prerelease: false
 
       - name: Close Milestone
-        uses: WyriHaximus/github-action-close-milestone
+        uses: WyriHaximus/github-action-close-milestone@master
         with:
           number: ${{ github.event.inputs.milestone }}
 ```
