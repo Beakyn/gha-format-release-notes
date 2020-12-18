@@ -1,6 +1,6 @@
 # Release Notes Format
 
-Format your release notes before creating the release.
+Generate the release notes from a milestone before creating a new release.
 
 ## Pre-requisites
 
@@ -10,13 +10,14 @@ Create a workflow .yml file in your .github/workflows directory. An example work
 
 `github-token`: Github token. (**required**)
 
-`repository`: Repository owner/repository name. (**required**)
+`repository`: Github repository. Add the Github context value: `github.repository`. (**required**)
 
 `milestone`: Milesone id, not title please. (**required**)
 
-`custom-row`: Custom format to row. You can use [issue](https://docs.github.com/en/free-pro-team@latest/rest/reference/issues#get-an-issue) values ​​to build your row. Example: "(#${issue.number}) - ${issue.title}: ${issue.body}"
+`custom-row`: Custom row format. You're able to use the [Github issue object](https://docs.github.com/en/free-pro-team@latest/rest/reference/issues#get-an-issue) values ​​to build your row.
+Example: `"(#${issue.number}) - ${issue.title}: ${issue.body}"`
 
-`custom-group-by-label`: Custom groups by label.
+`custom-group-by-label`: You're able to create groups by combining issue labels. You must add a collection of groups and each group has`title` and `labels`.
 
 ## Outputs
 
@@ -43,8 +44,8 @@ jobs:
         uses: Beakyn/release-notes-format@master
         id: format
         with:
+          # required
           github-token: ${{ github.token }}
-
           repository: ${{ github.repository }}
           milestone: ${{ github.event.inputs.milestone }}
 
@@ -79,7 +80,7 @@ jobs:
           prerelease: false
 
       - name: Close Milestone
-        uses: WyriHaximus/github-action-close-milestone@master
+        uses: WyriHaximus/github-action-close-milestone
         with:
           number: ${{ github.event.inputs.milestone }}
 ```
