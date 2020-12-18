@@ -1,9 +1,6 @@
 name: "Release Notes Format"
 description: "Action to format the text of the release to the milestone"
 inputs:
-  github-token:
-    description: "Github token"
-    required: true
   repository:
     description: "owner/repository name"
     required: true
