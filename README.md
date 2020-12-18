@@ -34,6 +34,9 @@ on:
       milestone:
         description: "Milestone ID"
         required: true
+      version:
+        description: "Version to be released"
+        required: true
 
 jobs:
   production:
@@ -73,8 +76,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
           body: ${{steps.format.outputs.release-notes}}
           draft: false
           prerelease: false
