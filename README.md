@@ -79,8 +79,11 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Close Milestone
-        uses: WyriHaximus/github-action-close-milestone@master
+      - name: Close milestone
+        uses: Beakyn/close-milestone@master
         with:
-          number: ${{ github.event.inputs.milestone }}
+          # required
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          milestone: ${{ github.event.inputs.milestone }}
 ```
