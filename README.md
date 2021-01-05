@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Relese notes format
-        uses: Beakyn/format-release-notes@master
+        uses: Beakyn/gha-format-release-notes@master
         id: format
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -82,7 +82,7 @@ jobs:
           prerelease: false
 
       - name: Close milestone
-        uses: Beakyn/close-milestone@master
+        uses: Beakyn/gha-close-milestone@master
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
