@@ -1,4 +1,4 @@
-# Release Notes Format
+# Format Release Notes
 
 Generate the release notes from a milestone before creating a new release.
 
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Relese notes format
-        uses: Beakyn/release-notes-format@master
+        uses: Beakyn/format-release-notes@master
         id: format
         env:
           GITHUB_TOKEN: ${{ github.token }}

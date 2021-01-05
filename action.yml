@@ -1,4 +1,4 @@
-name: "Release Notes Format"
+name: "Format Release Notes"
 description: "Action to format the text of the release to the milestone"
 inputs:
   repository:
