@@ -1,3 +1,5 @@
+<img src="https://beakyn.com/assets/beakyn-logo-v2-color.png" height="40" />
+
 # Format Release Notes
 
 Generate the release notes from a milestone before creating a new release.
