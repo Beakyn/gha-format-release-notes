@@ -1,4 +1,4 @@
-<img src="https://repository-images.githubusercontent.com/322607074/29c1ba00-896b-11eb-8bc5-a11df515bb01" alt="Beakyn - Format Release Notes" height="300" />
+<img src="https://beakyn.com/assets/beakyn-logo-v2-color.png" alt="Beakyn" height="40" />
 
 # Format Release Notes
 
