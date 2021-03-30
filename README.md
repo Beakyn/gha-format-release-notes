@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Relese notes format
-        uses: Beakyn/gha-format-release-notes@master
+        uses: Beakyn/gha-format-release-notes@v1.0.1
         id: format
         env:
           GITHUB_TOKEN: ${{ github.token }}
