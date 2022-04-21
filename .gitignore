@@ -1,0 +1,4 @@
+node_modules/
+mock/
+default.nix
+.env

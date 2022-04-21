@@ -1,6 +1,7 @@
 const github = require("@actions/github");
 const core = require("@actions/core");
 const template = require('lodash.template');
+const isEmpty = require('lodash.isempty');
 
 const defaultRow = '- ${issue.title} #${issue.number}';
 const defaultGroupByLabel = [
@@ -15,89 +16,134 @@ const defaultGroupByLabel = [
   {
     title: '### Refactor & Improvements ✨',
     labels: ['enhancement', 'refactor', 'chore'],
-  }
+  },
 ];
 
-function getInputs() {
-  const requiredOptions = { required: true };
-  // Required
-  const tokenGithub = process.env.GITHUB_TOKEN;
-  const repository = core.getInput('repository', requiredOptions);
-  const milestone = core.getInput('milestone', requiredOptions);
-  // Optional
-  const customRow = core.getInput('custom-row');
-  const groupByLabel = core.getInput('custom-group-by-label');
+function getGithubOptions() {
+  const options = { required: true };
 
-  console.log('groupByLabel => ', groupByLabel);
+  const ghToken = core.getInput('github-token', options);
+  const repository = core.getInput('repository', options);
+  const milestone = core.getInput('milestone', options);
+
+  const [owner, repo] = repository.split('/');
+
   return {
-    tokenGithub,
+    ghToken,
     repository,
+    owner,
+    repo,
     milestone,
-    row: customRow || defaultRow,
-    groupByLabel: groupByLabel === '' ? defaultGroupByLabel : JSON.parse(groupByLabel)
   };
 }
 
-function concatText(previous, current) {
-  previous += current;
-  return previous;
-};
+function getReleaseNotesGroupOptions() {
+  const groupByLabel = core.getInput('custom-group-by-label');
+
+  return !groupByLabel ? defaultGroupByLabel : JSON.parse(groupByLabel);
+}
+
+function getRowTemplate() {
+  const templateString = core.getInput('custom-row') || defaultRow;
+  return template(templateString);
+}
+
+async function fetchIssues({
+  ghToken,
+  owner,
+  repo,
+  milestone,
+  perPage = 100,
+  page = 1,
+}) {
+  const octokit = github.getOctokit(ghToken);
+
+  let issues = [];
+
+  const { data } = await octokit.rest.issues.listForRepo({
+    owner,
+    repo,
+    milestone,
+    state: 'closed',
+    sort: 'created',
+    direction: 'asc',
+    per_page: perPage,
+    page,
+  });
+
+  issues = [...data];
+
+  if (data.length > 0) {
+    const moreIssues = await fetchIssues({
+      ghToken,
+      owner,
+      repo,
+      milestone,
+      page: page + 1,
+    });
+
+    issues = [...issues, ...moreIssues];
+  }
+
+  return issues;
+}
+
+function hasGroupLabel(issue, groupLabels) {
+  const issueLabels = issue.labels.map((label) => label.name);
+  return issueLabels.some((label) => groupLabels.includes(label));
+}
+
+function formatIssueDescription(issue) {
+  return getRowTemplate()({ issue });
+}
+
+function formatReleaseNotesGroupDescription(issues, groupTitle, groupLabels) {
+  const groupDescription = issues
+    .reduce(
+      (text, issue) =>
+        hasGroupLabel(issue, groupLabels)
+          ? `${text}${formatIssueDescription(issue)}\n`
+          : text,
+      '',
+    )
+    .trim();
+
+  return groupDescription === ''
+    ? ''
+    : `\n${groupTitle}\n\n${groupDescription}\n`;
+}
+
+function filterNonPullRequestIssues(issues) {
+  return issues.filter((issue) => !issue.pull_request);
+}
+
+function formatReleaseNotes(issues, groupOptions) {
+  const releaseNotes = groupOptions.reduce((notes, { title, labels }) => {
+    if (isEmpty(labels)) return notes;
+
+    const groupDescription = formatReleaseNotesGroupDescription(
+      issues,
+      title,
+      labels,
+    );
+    return `${notes}${groupDescription}`;
+  }, '');
+
+  return releaseNotes;
+}
 
 async function run() {
   try {
-    const {
-      tokenGithub,
-      repository,
-      milestone,
-      row,
-      groupByLabel,
-    } = getInputs();
+    const githubOptions = getGithubOptions();
+    const rnGroupOptions = getReleaseNotesGroupOptions();
 
-    const octokit = github.getOctokit(tokenGithub);
-  
-    const { data: issues } = await octokit.request(`GET /repos/${repository}/issues`, {  
-      milestone,
-      state: 'closed',
-      sort: 'created',
-      direction: 'asc'
-    });
-  
-    const releaseNotes = groupByLabel.map(item => {
-      // filtering by group
-      const changeLog = issues
-      // removing pull_request issues
-      .filter(issue => !issue.pull_request)
-      // checking the label
-      .filter(issue => {
-        const exists = issue.labels.some(label => {
-          return item.labels.includes(label.name);
-        });
+    const issues = await fetchIssues(githubOptions);
+    const filteredIssues = filterNonPullRequestIssues(issues);
 
-        return exists;
-      })
-      // creating each issue text
-      .map(issue => `${template(row)({ issue })}\n`)
-      // concatenating the title of the issues
-      .reduce(concatText, '');
+    const releaseNotes = formatReleaseNotes(filteredIssues, rnGroupOptions);
 
-      return {
-        title: item.title,
-        changeLog
-      }
-    })
-    // removing groups that have no change log
-    .map(({ title, changeLog }) => {
-      return (changeLog.trim() !== '')
-        ? `\n${title}\n\n${changeLog}`
-        : '';
-    })
-    // concatenating change log groups
-    .reduce(concatText, '');
-    // success
-    console.log(releaseNotes);
     core.setOutput('release-notes', releaseNotes);
-  } catch(error) {
-    console.log('error => ', error);
+  } catch (error) {
     core.setFailed(error.message);
   }
 }
