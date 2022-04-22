@@ -1,0 +1,27 @@
+name: Test
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  # test action works running from the graph
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Install deps
+      run: yarn install
+
+    - name: Get formatted release notes
+      id: get-release-notes
+      uses: ./
+      with:
+        repository: ${{ github.repository }}
+        milestone: 1
+
+    - name: Print release notes
+      run: |
+        echo "${{ steps.get-release-notes.outputs.release-notes }}"
