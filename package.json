@@ -2,16 +2,21 @@
   "name": "gha-format-release-notes",
   "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "prepare": "ncc build lib/index.js -o dist --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "^4.0.0",
+    "@actions/core": "^1.6.0",
+    "@actions/github": "^5.0.1",
+    "lodash.isempty": "^4.4.0",
     "lodash.template": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.33.4"
   }
 }

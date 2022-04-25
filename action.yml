@@ -9,11 +9,13 @@ inputs:
     required: true
   custom-row:
     description: "Custom format to row"
+    required: false
   custom-group-by-label:
     description: "Custom groups by label"
+    required: false
 outputs:
   release-notes:
     description: "Formatted release notes"
 runs:
-  using: "node12"
-  main: "index.js"
+  using: "node16"
+  main: "dist/index.js"
