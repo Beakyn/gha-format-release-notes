@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build lib/index.js -o dist --minify",
+    "prepare": "ncc build lib/index.js -o dist --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

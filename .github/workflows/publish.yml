@@ -20,7 +20,7 @@ jobs:
           cache: yarn
 
       - name: Install deps and build
-        run: yarn install && yarn build
+        run: yarn install
 
       # Compile dist/index.js and bundle with action.yml
       # Force push major and minor tags, e.g. v1, v1.0
