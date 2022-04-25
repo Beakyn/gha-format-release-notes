@@ -22,10 +22,6 @@ jobs:
     - name: Install deps and build
       run: yarn install
 
-    - name: Print token
-      run: |
-        echo "GH_TOKEN ${{ github.token }}"
-
     - name: Get formatted release notes
       id: get-release-notes
       uses: ./
