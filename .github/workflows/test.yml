@@ -32,6 +32,8 @@ jobs:
       with:
         repository: ${{ github.repository }}
         milestone: 1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
 
     - name: Print release notes
       run: |
