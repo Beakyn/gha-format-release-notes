@@ -1,4 +1,4 @@
-<img src="https://beakyn.com/assets/beakyn-logo-v2-color.png" alt="Beakyn" height="40" />
+<img src="https://user-images.githubusercontent.com/30832/172840408-506cc863-c78c-47a7-9454-d446415f4d46.png" alt="Beakyn" height="80" />
 
 # Format Release Notes
 
